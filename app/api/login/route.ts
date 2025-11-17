@@ -14,25 +14,18 @@ export async function POST(req: NextRequest) {
     const res = await fetch("https://dummyjson.com/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, expiresInMins: 30 }),
+      credentials: "include",
     });
 
     const data = await res.json();
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { message: data.message || "Login gagal" },
-        { status: 401 }
-      );
-    }
-
-    // Ambil token yang benar
     return NextResponse.json(
       {
-        token: data.token, // <=== perbaikan
+        token: data.token || null, // tetap bisa null
         user: data,
       },
-      { status: 200 }
+      { status: res.ok ? 200 : 401 }
     );
   } catch (error) {
     return NextResponse.json(

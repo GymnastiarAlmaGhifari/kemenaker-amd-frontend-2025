@@ -34,14 +34,29 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const res = await login(data.username, data.password);
-      setToken(res.token);
-      router.push("/dashboard");
+
+      if (!res.token) {
+        alert("Login berhasil, tapi token tidak tersedia dari server.");
+      } else {
+        alert("Login berhasil!");
+      }
+
+      // Simpan token jika tersedia, kalau tidak tetap null
+      setToken(res.token || null);
+
+      router.push("/dashboard"); // tetap lanjut ke dashboard
+      console.log("Token di localStorage:", localStorage.getItem("token"));
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      alert("Login gagal: " + (error.response?.data?.message || error.message));
+      console.error(error);
+      alert(
+        "Login gagal: " + (error.response?.data?.message || error.message) ||
+          "Unknown error"
+      );
+      router.push("/dashboard"); // tetap lanjut ke dashboard
     }
   };
-
   return (
     <div className="flex items-center justify-center min-h-screen ">
       <form
