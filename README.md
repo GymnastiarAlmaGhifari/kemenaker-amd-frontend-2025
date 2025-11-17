@@ -2,6 +2,9 @@
 
 Aplikasi **Manajemen Produk** berbasis **Next.js**, **TypeScript**, dan **TailwindCSS**, dibuat untuk keperluan skill test frontend developer. Aplikasi ini menggunakan **DummyJSON API** sebagai backend simulasi. Login tetap dapat dilakukan walau token tidak tersedia dari server.
 
+bisa di lihat disini 👇
+## https://kemenaker-amd-frontend-2025-b4o7.vercel.app/
+
 ## Fitur Utama
 
 - **Autentikasi Login**
