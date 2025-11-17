@@ -2,6 +2,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addProduct } from "@/lib/products";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -31,7 +35,7 @@ export default function AddProductPage() {
         title,
         price,
         description,
-        images: image ? [preview] : [], // preview URL only
+        images: image ? [preview] : [],
       };
       await addProduct(data);
       router.push("/products");
@@ -44,61 +48,77 @@ export default function AddProductPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Add Product</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-semibold mb-1">Name *</label>
-          <input
-            type="text"
-            className="w-full border px-3 py-2 rounded"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-white p-6">
+      <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-lg">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+          Add New Product
+        </h2>
 
-        <div>
-          <label className="block font-semibold mb-1">Price *</label>
-          <input
-            type="number"
-            className="w-full border px-3 py-2 rounded"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold mb-1">Description *</label>
-          <textarea
-            className="w-full border px-3 py-2 rounded"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
-        </div>
-
-        <div>
-          <label className="block font-semibold mb-1">Image (optional)</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              className="mt-2 w-32 h-32 object-cover rounded"
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <Label htmlFor="title">Name *</Label>
+            <Input
+              id="title"
+              placeholder="Enter product name"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="mt-1"
             />
-          )}
-        </div>
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-        >
-          {loading ? "Saving..." : "Add Product"}
-        </button>
-      </form>
+          <div>
+            <Label htmlFor="price">Price *</Label>
+            <Input
+              id="price"
+              type="number"
+              placeholder="Enter product price"
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="description">Description *</Label>
+            <Textarea
+              id="description"
+              placeholder="Enter product description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="mt-1"
+              rows={4}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="image">Image (optional)</Label>
+            <Input
+              id="image"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="mt-1"
+            />
+            {preview && (
+              <div className="mt-3">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-full h-64 object-cover rounded-xl border border-gray-200 shadow-sm"
+                />
+              </div>
+            )}
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full py-3 mt-4 bg-green-500 hover:bg-green-600 text-white text-lg font-semibold transition-all"
+            disabled={loading}
+          >
+            {loading ? "Saving..." : "Add Product"}
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

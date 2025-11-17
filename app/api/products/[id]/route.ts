@@ -5,8 +5,8 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const data = await req.json();
   try {
+    const data = await req.json();
     const res = await axios.put(
       `https://dummyjson.com/products/${params.id}`,
       data
